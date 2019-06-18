@@ -2,11 +2,20 @@
   "name": "root",
   "private": true,
   "scripts": {
+    "build-core": "lerna run build --scope @typefixture/core",
     "publish": "lerna run tsc && lerna publish"
   },
   "devDependencies": {
+    "@types/jest": "^23.3.2",
     "@types/node": "^10.11.0",
     "lerna": "^3.15.0",
-    "typescript": "3.5.1"
+    "lodash": "4.17.11",
+    "rollup": "1.15.6",
+    "rollup-plugin-commonjs": "10.0.0",
+    "rollup-plugin-json": "4.0.0",
+    "rollup-plugin-node-resolve": "5.0.3",
+    "rollup-plugin-sourcemaps": "0.4.2",
+    "rollup-plugin-typescript2": "0.21.2",
+    "typescript": "3.5.2"
   }
 }

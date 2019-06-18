@@ -5,19 +5,19 @@
   "author": "Maxim Tebenev <mtebenev@gmail.com>",
   "homepage": "",
   "license": "MIT",
-  "main": "lib/core.js",
-  "directories": {
-    "lib": "lib",
-    "test": "__tests__"
-  },
+  "main": "dist/typefixture-core.umd.js",
+  "module": "dist/typefixture-core.es5.js",
+  "typings": "dist/types/typefixture-core.d.ts",
   "files": [
-    "lib"
+    "dist"
   ],
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1",
-    "tsc": "tsc"
+    "build": "tsc --module commonjs && rollup -c rollup.config.ts"
+  },
+  "dependencies": {
+    "ts-morph": "2.3.0"
   }
 }
