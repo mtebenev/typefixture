@@ -7,7 +7,7 @@ import json from 'rollup-plugin-json';
 
 const pkg = require('./package.json');
 
-const libraryName = 'typefixture-core';
+const libraryName = 'typefixture-jest';
 
 export default {
   input: `src/${libraryName}.ts`,

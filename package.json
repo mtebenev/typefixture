@@ -3,6 +3,8 @@
   "private": true,
   "scripts": {
     "build-core": "lerna run build --scope @typefixture/core",
+    "build-jest": "lerna run build --scope @typefixture/jest",
+    "sample-jest": "lerna run test --scope sample-jest",
     "publish": "lerna run tsc && lerna publish"
   },
   "devDependencies": {
