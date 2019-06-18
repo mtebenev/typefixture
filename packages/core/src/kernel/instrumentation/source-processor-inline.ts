@@ -25,18 +25,17 @@ export class SourceProcessorInline {
    * Collects information about all Fixture.create() calls.
    */
   public processSourceFile(sourceFile: ts.SourceFile): void {
-    console.warn('processSourceFile(): ' + sourceFile.fileName);
+    console.error('processSourceFile(): ' + sourceFile.fileName);
     const project = new Project({
       addFilesFromTsConfig: false,
     });
 
     // Try obtain symbol for Fixture.create() and find all references (call expressions)
     const sf = project.addExistingSourceFile(sourceFile.fileName);
-    const importDeclaration = sf.getImportDeclaration('typefixture');
+    const importDeclaration = sf.getImportDeclaration('@typefixture/core');
     if(importDeclaration) {
       const fixtureClassImport = importDeclaration.getNamedImports().find(i => i.getName() === 'Fixture');
       if(fixtureClassImport) {
-        console.warn('processSourceFile(): FOUND IMPORT');
         const nameNode = fixtureClassImport.getNameNode();
         const typeChecker = project.getTypeChecker();
         const fixtureType = typeChecker.getTypeAtLocation(nameNode);

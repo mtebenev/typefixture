@@ -21,6 +21,7 @@
     "url": "https://github.com/mtebenev/typefixture/issues"
   },
   "devDependencies": {
+    "@typefixture/core": "*",
     "@typefixture/jest": "*",
     "jest": "24.8.0",
     "ts-jest": "24.0.2",
