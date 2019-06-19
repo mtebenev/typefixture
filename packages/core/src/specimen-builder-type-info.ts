@@ -19,13 +19,17 @@ export class SpecimenBuilderTypeInfo implements ISpecimenBuilder {
    */
   public create(request: ISpecimenRequest, context: ISpecimenContext): any {
     let result;
-    if(request.kind === RequestKind.typeInfo) {
-      const typeId: string = request.value;
-      const typeInfo = this.typeInfoStorage.getTypeInfo(typeId);
+    let typeInfo: ITypeInfo | undefined;
 
-      if(typeInfo) {
-        result = this.buildSpecimen(typeInfo, context);
-      }
+    if(request.kind === RequestKind.typeInfo) {
+      typeInfo = request.value;
+    } else if(request.kind === RequestKind.typeInfoId) {
+      const typeId: string = request.value;
+      typeInfo = this.typeInfoStorage.getTypeInfo(typeId);
+    }
+
+    if(typeInfo) {
+      result = this.buildSpecimen(typeInfo, context);
     }
 
     if(!result) {

@@ -2,9 +2,9 @@
   "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": false,
   "typescript.format.insertSpaceAfterKeywordsInControlFlowStatements": false,
   "files.exclude": {
-    "node_modules/": true
+    "**/node_modules/": true
   },
   "search.exclude": {
-    "node_modules/": true
+    "**/node_modules/": true
   }
 }

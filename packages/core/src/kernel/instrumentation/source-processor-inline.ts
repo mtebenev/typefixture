@@ -2,6 +2,7 @@ import {ts, Project, ClassDeclaration, CallExpression, TypeChecker} from 'ts-mor
 import {TypeInfoStorage} from './type-info-storage';
 import {TypeInfoBuilder} from './type-info-builder';
 import {TTypeScript} from './instrumentation-transformer';
+import {IInstrumentationWriter} from './iinstrumentation-writer';
 
 /**
  * Source processor inlining instrumentation call.
@@ -15,17 +16,18 @@ export class SourceProcessorInline {
    */
   private references: Array<{nodePosition: number, typeId: string}>;
   private compilerModule: TTypeScript;
+  private instrumentationWriter: IInstrumentationWriter;
 
-  constructor(compilerModule: TTypeScript) {
+  constructor(compilerModule: TTypeScript, instrumentationWriter: IInstrumentationWriter) {
     this.references = [];
     this.compilerModule = compilerModule;
+    this.instrumentationWriter = instrumentationWriter;
   }
 
   /**
    * Collects information about all Fixture.create() calls.
    */
   public processSourceFile(sourceFile: ts.SourceFile): void {
-    console.error('processSourceFile(): ' + sourceFile.fileName);
     const project = new Project({
       addFilesFromTsConfig: false,
     });
@@ -65,7 +67,7 @@ export class SourceProcessorInline {
     if(reference && this.compilerModule.isCallExpression(node)) {
       console.warn('REWRITE NODE');
       const callExpression: ts.CallExpression = node as ts.CallExpression;
-      const newParam = this.createTypeInfoNode(reference.typeId);
+      const newParam = this.instrumentationWriter.rewrite(callExpression, reference.typeId);
       return this.compilerModule.updateCall(callExpression, callExpression.expression, callExpression.typeArguments, [newParam]);
     } else {
       return node;
@@ -81,22 +83,5 @@ export class SourceProcessorInline {
     const storage = TypeInfoStorage.getInstance();
     const typeId = storage.addTypeInfo(typeInfo);
     return typeId;
-  }
-
-  private createTypeInfoNode(typeId: string): ts.Expression {
-    console.warn('createTypeInfoNode() START');
-
-    const typeInfo = TypeInfoStorage.getInstance().getTypeInfo(typeId);
-
-    const properties = typeInfo!.fields.map(f => {
-      const initializer = this.compilerModule.createLiteral(10);
-      return this.compilerModule.createPropertyAssignment(f.name, initializer);
-    });
-
-    const result = this.compilerModule.createObjectLiteral(properties, false);
-    console.warn('createTypeInfoNode() FINISH');
-
-    return result;
-
   }
 }

@@ -18,20 +18,12 @@ export class Fixture {
   /**
    * Create a single specimen instance
    */
-  public create<T>(typeId?: string): T {
-    if(!typeId) {
+  public create<T>(request?: string): T {
+    if(!request) {
       throw new Error('Failed to create specimen: probably instrumentation failed.');
     }
-
-    console.warn(`Fixture.create(): ${JSON.stringify(typeId)}`);
-
-    /*
-    const request: ISpecimenRequest = {kind: RequestKind.typeInfo, value: typeId};
     const context = this.createContext();
     return context.resolve(request);
-    */
-
-    return typeId as any;
   }
 
   /**

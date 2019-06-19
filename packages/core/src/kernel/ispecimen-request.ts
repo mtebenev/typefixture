@@ -14,9 +14,14 @@ export enum RequestKind {
   string,
 
   /**
+   * The request is inlined type info request.
+   */
+  typeInfo,
+
+  /**
    * The request is type info and value is the type id.
    */
-  typeInfo
+  typeInfoId
 }
 
 /**
