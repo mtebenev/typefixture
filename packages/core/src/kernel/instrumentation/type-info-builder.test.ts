@@ -12,12 +12,11 @@ describe('TypeInfoBuilder', () => {
       a: number;
       b: string;
     }
-    create<ISimple>();
     `);
 
-    const builder = new TypeInfoBuilder(project.getTypeChecker());
-    const callExpression = sourceFile.getFirstDescendantByKindOrThrow(SyntaxKind.CallExpression);
-    const typeInfo = builder.build(callExpression);
+    const type = sourceFile.getInterfaceOrThrow('ISimple').getType();
+    const builder = new TypeInfoBuilder();
+    const typeInfo = builder.build(type);
 
     expect(typeInfo.fields.length).toEqual(2);
     expect(typeInfo.fields).toContainEqual({

@@ -78,8 +78,11 @@ export class SourceProcessorInline {
    * Creates type info from fixture.create<T>() expression.
    */
   private createTypeInfo(callExpression: CallExpression, typeChecker: TypeChecker): string {
-    const builder = new TypeInfoBuilder(typeChecker);
-    const typeInfo = builder.build(callExpression);
+
+    const typeNode = callExpression.getTypeArguments()[0];
+    const targetType = typeChecker.getTypeAtLocation(typeNode);
+    const builder = new TypeInfoBuilder();
+    const typeInfo = builder.build(targetType);
     const storage = TypeInfoStorage.getInstance();
     const typeId = storage.addTypeInfo(typeInfo);
     return typeId;

@@ -1,4 +1,4 @@
-import {CallExpression, TypeChecker, Symbol, PropertySignature} from 'ts-morph';
+import {Symbol, PropertySignature, Type} from 'ts-morph';
 import {ITypeInfo} from './itype-info';
 import {IMemberInfo} from './imember-info';
 import {RequestKind} from '../ispecimen-request';
@@ -8,19 +8,11 @@ import {RequestKind} from '../ispecimen-request';
  */
 export class TypeInfoBuilder {
 
-  private typeChecker: TypeChecker;
-
-  constructor(typeChecker: TypeChecker) {
-    this.typeChecker = typeChecker;
-  }
-
   /**
    * Extracts requested type and creates the type info.
    */
-  public build(callExpression: CallExpression): ITypeInfo {
-    const typeNode = callExpression.getTypeArguments()[0];
-    const targetType = this.typeChecker.getTypeAtLocation(typeNode);
-    const props = targetType.getProperties();
+  public build(type: Type): ITypeInfo {
+    const props = type.getProperties();
 
     const typeInfo: ITypeInfo = {
       fields: props.map(p => this.createFieldRequest(p))

@@ -15,7 +15,8 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsc --module commonjs && rollup -c rollup.config.ts"
+    "build": "tsc --module commonjs && rollup -c rollup.config.ts",
+    "test": "jest --no-cache"
   },
   "dependencies": {
     "ts-morph": "2.3.0"
