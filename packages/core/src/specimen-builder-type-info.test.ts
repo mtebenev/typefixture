@@ -1,11 +1,11 @@
 import {SpecimenBuilderTypeInfo} from './specimen-builder-type-info';
-import {TypeInfoStorage} from './kernel/instrumentation/type-info-storage';
-import {ITypeInfo} from './kernel/instrumentation/itype-info';
+import {ITypeInfo} from './kernel/type-info/itype-info';
 import {RequestKind} from './kernel/ispecimen-request';
 import {SpecimenContext} from './specimen-context';
 import {ISpecimenContext} from './kernel';
 import {SpecimenBuilderPrimitive} from './specimen-builder-primitive';
 import {SpecimenBuilderComposite} from './specimen-builder-composite';
+import {ITypeInfoStorage} from './kernel/instrumentation/itype-info-storage';
 
 describe('SpecimenBuilderTypeInfo', () => {
   it('Should create interface with primitive fields', () => {
@@ -15,7 +15,6 @@ describe('SpecimenBuilderTypeInfo', () => {
       b: number;
     }
 
-    const storage = new TypeInfoStorage();
     const typeInfo: ITypeInfo = {
       fields: [
         {
@@ -32,17 +31,35 @@ describe('SpecimenBuilderTypeInfo', () => {
         }
       ]
     };
-    const typeId = storage.addTypeInfo(typeInfo);
     const context = createMockContext();
 
-    const sut = new SpecimenBuilderTypeInfo(storage);
+    const sut = new SpecimenBuilderTypeInfo({} as ITypeInfoStorage);
     const specimen: IExample = sut.create(
-      {kind: RequestKind.typeInfo, value: typeId},
+      {kind: RequestKind.typeInfo, value: typeInfo},
       context
     );
 
     expect(specimen.a).toEqual(expect.any(Number));
     expect(specimen.b).toEqual(expect.any(Number));
+  });
+
+  it('Should create class instance', () => {
+
+    class SomeClass {}
+
+    const typeInfo: ITypeInfo = {
+      fields: [],
+      ctor: SomeClass
+    };
+    const context = createMockContext();
+
+    const sut = new SpecimenBuilderTypeInfo({} as ITypeInfoStorage);
+    const specimen: SomeClass = sut.create(
+      {kind: RequestKind.typeInfo, value: typeInfo},
+      context
+    );
+
+    expect(specimen).toBeInstanceOf(SomeClass);
   });
 });
 

@@ -1,16 +1,16 @@
 import {ISpecimenBuilder, NoSpecimen, ISpecimenContext} from './kernel';
 import {ISpecimenRequest, RequestKind} from './kernel/ispecimen-request';
-import {TypeInfoStorage} from './kernel/instrumentation/type-info-storage';
-import {ITypeInfo} from './kernel/instrumentation/itype-info';
+import {ITypeInfo} from './kernel/type-info/itype-info';
+import {ITypeInfoStorage} from './kernel/instrumentation/itype-info-storage';
 
 /**
  * Can build specimens according to provided type info.
  */
 export class SpecimenBuilderTypeInfo implements ISpecimenBuilder {
 
-  private typeInfoStorage: TypeInfoStorage;
+  private typeInfoStorage: ITypeInfoStorage;
 
-  constructor(typeInfoStorage: TypeInfoStorage) {
+  constructor(typeInfoStorage: ITypeInfoStorage) {
     this.typeInfoStorage = typeInfoStorage;
   }
 
@@ -29,7 +29,15 @@ export class SpecimenBuilderTypeInfo implements ISpecimenBuilder {
     }
 
     if(typeInfo) {
-      result = this.buildSpecimen(typeInfo, context);
+      // Create the specimen with constructor or signature
+      if(typeInfo.ctor) {
+        result = new typeInfo.ctor()
+      } else {
+        result = {};
+      }
+
+      // Fields
+      this.buildFields(typeInfo, result, context);
     }
 
     if(!result) {
@@ -40,14 +48,11 @@ export class SpecimenBuilderTypeInfo implements ISpecimenBuilder {
   }
 
   /**
-   * Builds specimen by given type info
+   * Fills the fields in specimen
    */
-  private buildSpecimen(typeInfo: ITypeInfo, context: ISpecimenContext): any {
-    const result: any = {};
+  private buildFields(typeInfo: ITypeInfo, specimen: any, context: ISpecimenContext): void {
     typeInfo.fields.forEach(f => {
-      result[f.name] = context.resolve(f.request);
+      specimen[f.name] = context.resolve(f.request);
     });
-
-    return result;
   }
 }

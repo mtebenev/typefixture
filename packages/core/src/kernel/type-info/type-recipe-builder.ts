@@ -9,9 +9,9 @@ export class TypeRecipeBuilder {
   /**
    * Type recipe builder root.
    */
-  public build(type: Type): ITypeRecipe | NoTypeInfo {
+  public build(type: Type): ITypeRecipe {
 
-    let result = new NoTypeInfo();
+    let result: ITypeRecipe | undefined;
 
     const builders = [
       new TypeRecipeBuilderClass()
@@ -23,6 +23,10 @@ export class TypeRecipeBuilder {
         result = resolved;
         break;
       }
+    }
+
+    if(!result) {
+      throw new Error('Cannot build type recipe.');
     }
 
     return result;
