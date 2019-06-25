@@ -1,4 +1,4 @@
-import {Symbol, PropertySignature, Type} from 'ts-morph';
+import {Symbol, PropertySignature, Type, ts} from 'ts-morph';
 import {ITypeInfo} from './itype-info';
 import {IMemberInfo} from './imember-info';
 import {RequestKind} from '../ispecimen-request';
@@ -15,8 +15,20 @@ export class TypeInfoBuilder {
     const props = type.getProperties();
 
     const typeInfo: ITypeInfo = {
-      fields: props.map(p => this.createFieldRequest(p))
+      fields: []
+      // fields: props.map(p => this.createFieldRequest(p))
     };
+    // ---------------------------------------------
+    // Testing constructor ref here
+    const symbol = type.getSymbolOrThrow();
+    const members = symbol.getMembers();
+    const ctor = members.find(m => m.hasFlags(ts.SymbolFlags.Constructor));
+    if(ctor) {
+      console.error(`Found CTOR member: ${symbol.getName()}   ${symbol.getFullyQualifiedName()}`);
+      typeInfo.ctorId = symbol.getFullyQualifiedName();
+    }
+
+    // ----------------------------------------------
 
     return typeInfo;
   }
