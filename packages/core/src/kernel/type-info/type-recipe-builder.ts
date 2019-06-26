@@ -3,6 +3,7 @@ import {ITypeRecipe} from './itype-recipe';
 import {TypeRecipeBuilderClass} from './type-recipe-builder-class';
 import {NoTypeInfo} from './no-type-info';
 import {ITypeRecipeContext} from './itype-recipe-context';
+import {TypeRecipeBuilderInterface} from './type-recipe-builder-interface';
 
 export class TypeRecipeBuilder {
 
@@ -14,7 +15,8 @@ export class TypeRecipeBuilder {
     let result: ITypeRecipe | undefined;
 
     const builders = [
-      new TypeRecipeBuilderClass()
+      new TypeRecipeBuilderClass(),
+      new TypeRecipeBuilderInterface()
     ];
 
     for(const builder of builders) {

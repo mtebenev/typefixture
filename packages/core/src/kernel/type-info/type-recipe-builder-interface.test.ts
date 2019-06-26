@@ -1,10 +1,10 @@
 import {TsTestUtils} from '../../test-utils/ts-test-utils';
 import {NoTypeInfo} from './no-type-info';
-import {TypeRecipeBuilderClass} from './type-recipe-builder-class';
 import {ITypeRecipeContext} from './itype-recipe-context';
+import {TypeRecipeBuilderInterface} from './type-recipe-builder-interface';
 
 describe('TypeRecipeBuilderClass', () => {
-  it('Should return NoTypeInfo for interfaces', () => {
+  it('Should create type recipe for classes', () => {
     const type = TsTestUtils.getInterface(
       'ISimple',
       `
@@ -12,12 +12,14 @@ interface ISimple {
 }
 `    );
 
-    const builder = new TypeRecipeBuilderClass();
+    const builder = new TypeRecipeBuilderInterface();
     const typeRecipe = builder.create(type, {} as ITypeRecipeContext);
-    expect(typeRecipe).toBeInstanceOf(NoTypeInfo);
+    expect(typeRecipe).toEqual({
+      fields: []
+    });
   });
 
-  it('Should create type recipe for classes', () => {
+  it('Should return NoTypeInfo for classes', () => {
     const type = TsTestUtils.getClass(
       'TestClass',
       `
@@ -25,11 +27,8 @@ class TestClass {
 }
 `    );
 
-    const builder = new TypeRecipeBuilderClass();
+    const builder = new TypeRecipeBuilderInterface();
     const typeRecipe = builder.create(type, {} as ITypeRecipeContext);
-    expect(typeRecipe).toEqual({
-      className: 'TestClass',
-      fields: []
-    });
+    expect(typeRecipe).toBeInstanceOf(NoTypeInfo);
   });
 });

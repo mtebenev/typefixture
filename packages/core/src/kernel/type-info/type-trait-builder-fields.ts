@@ -1,8 +1,8 @@
 import {ITypeTraitBuilder} from './itype-trait-builder';
 import {Type, PropertySignature, Symbol} from 'ts-morph';
-import {ITypeInfo} from './itype-info';
 import {IMemberInfo} from './imember-info';
 import {RequestKind} from '../ispecimen-request';
+import {ITypeRecipe} from './itype-recipe';
 
 /**
  * Responsible for filling fields info.
@@ -12,7 +12,7 @@ export class TypeTraitBuilderFields implements ITypeTraitBuilder {
   /**
    * ITypeTraitBuilder
    */
-  public build(type: Type, typeInfo: Partial<ITypeInfo>): void {
+  public build(type: Type, typeInfo: Partial<ITypeRecipe>): void {
     const props = type.getProperties();
     typeInfo.fields = props.map(p => this.createFieldRequest(p))
   }

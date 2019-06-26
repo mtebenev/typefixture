@@ -1,5 +1,5 @@
 import {Type} from 'ts-morph';
-import {ITypeInfo} from './itype-info';
+import {ITypeRecipe} from './itype-recipe';
 
 /**
  * Type trait builders are responsible for building some specific parts of a type like
@@ -10,7 +10,7 @@ export interface ITypeTraitBuilder {
   /**
    * Builds a type trait.
    * @param type Source type.
-   * @param typeInfo Target type info structure.
+   * @param typeRecipe Target type recipe structure.
    */
-  build(type: Type, typeInfo: ITypeInfo): void;
+  build(type: Type, typeRecipe: Partial<ITypeRecipe>): void;
 }
