@@ -1,4 +1,4 @@
-import {ITypeInfo} from './itype-info';
+import {ITypeInfo} from '../type-info/itype-info';
 import {uuid} from '../../utils/uuid';
 
 /**

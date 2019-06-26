@@ -1,34 +1,27 @@
 import * as ts from 'typescript';
 import {IInstrumentationWriter} from './iinstrumentation-writer';
-import {ITypeInfoStorage} from './itype-info-storage';
 import {TTypeScript} from './instrumentation-transformer';
-import {ITypeInfo} from './itype-info';
-import {IMemberInfo} from './imember-info';
+import {IMemberInfo} from '../type-info/imember-info';
 import {RequestKind} from '../ispecimen-request';
+import {ITypeRecipe} from '../type-info/itype-recipe';
 
 /**
  * Inline instrumentation
  */
 export class InstrumentationWriterInline implements IInstrumentationWriter {
 
-  private typeInfoStorage: ITypeInfoStorage;
   private compilerModule: TTypeScript;
 
-  constructor(compilerModule: TTypeScript, typeInfoStorage: ITypeInfoStorage) {
+  constructor(compilerModule: TTypeScript) {
     this.compilerModule = compilerModule;
-    this.typeInfoStorage = typeInfoStorage;
   }
 
   /**
    * IInstrumentationWriter
    */
-  public rewrite(callExpression: ts.CallExpression, typeId: string): ts.Expression {
+  public rewrite(callExpression: ts.CallExpression, typeRecipe: ITypeRecipe): ts.Expression {
 
-    const typeInfo = this.typeInfoStorage.getTypeInfo(typeId);
-    if(!typeInfo) {
-      throw new Error('Cannot find type info.');
-    }
-    const typeInfoExpression = this.createTypeInfoExpression(typeInfo);
+    const typeInfoExpression = this.createTypeInfoExpression(typeRecipe);
 
     // Create specimen request expression
     const requestProperties: ts.PropertyAssignment[] =
@@ -41,15 +34,33 @@ export class InstrumentationWriterInline implements IInstrumentationWriter {
     return result;
   }
 
-  private createTypeInfoExpression(typeInfo: ITypeInfo): ts.Expression {
+  private createTypeInfoExpression(typeRecipe: ITypeRecipe): ts.Expression {
 
-    const memberExpressions = typeInfo.fields.map(f => this.createMemberExpression(f));
+    const typeInfoAssignments: ts.ObjectLiteralElementLike[] = [];
+
+    // Fields
+    const memberExpressions = typeRecipe.fields.map(f => this.createMemberExpression(f));
     const memberArray = this.compilerModule.createArrayLiteral(memberExpressions);
+    const fieldAssignments = this.compilerModule.createPropertyAssignment('fields', memberArray);
+    typeInfoAssignments.push(fieldAssignments);
 
-    const typeInfoAssignments = this.compilerModule.createPropertyAssignment('fields', memberArray)
-    const result =  this.compilerModule.createObjectLiteral([typeInfoAssignments]);
+    // Add ctor assignment if available
+    if(typeRecipe.className) {
+      const ctorAssignment = this.createCtorAssignment(typeRecipe.className);
+      typeInfoAssignments.push(ctorAssignment);
+    }
+
+    const result =  this.compilerModule.createObjectLiteral(typeInfoAssignments);
 
     return result;
+  }
+
+  private createCtorAssignment(className: string): ts.PropertyAssignment {
+    const ctorIdentifier = this.compilerModule.createIdentifier(className);
+    const result = this.compilerModule.createPropertyAssignment(
+      'ctor',
+      ctorIdentifier);
+      return result;
   }
 
   /**

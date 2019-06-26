@@ -1,4 +1,5 @@
-import {Project, Type} from 'ts-morph';
+import {Project, Type, ts} from 'ts-morph';
+import {TTypeScript} from '../kernel/instrumentation/instrumentation-transformer';
 
 /**
  * TS-related test helpers
@@ -25,5 +26,16 @@ export class TsTestUtils {
     const type = sourceFile.getClassOrThrow(typeName).getType();
 
     return type;
+  }
+
+  /**
+   * Prints a TS expression
+   */
+  public static printExpression(compilerModule: TTypeScript, expression: ts.Expression): any {
+    const printer = compilerModule.createPrinter();
+    const sourceFile = compilerModule.createSourceFile('dummy.ts', '', compilerModule.ScriptTarget.Latest, undefined);
+    const result = printer.printNode(compilerModule.EmitHint.Expression, expression, sourceFile);
+
+    return result;
   }
 }
