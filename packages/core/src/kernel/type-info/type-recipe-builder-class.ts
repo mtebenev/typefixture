@@ -20,9 +20,11 @@ export class TypeRecipeBuilderClass implements ITypeRecipeBuilder {
     if(symbol) {
       const isClass = symbol.getDeclarations().some(d => TypeGuards.isClassDeclaration(d));
       if(isClass) {
-        result = {
-          className: symbol.getFullyQualifiedName()
+        const typeRecipe: ITypeRecipe = {
+          className: symbol.getFullyQualifiedName(),
+          fields: []
         };
+        result = typeRecipe;
       }
     }
 

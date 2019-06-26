@@ -1,8 +1,8 @@
 import {ts, Project, ClassDeclaration, CallExpression, TypeChecker} from 'ts-morph';
-import {TypeInfoStorage} from './type-info-storage';
-import {TypeInfoBuilder} from './type-info-builder';
+import {TypeRecipeBuilder} from '../type-info/type-recipe-builder';
 import {TTypeScript} from './instrumentation-transformer';
 import {IInstrumentationWriter} from './iinstrumentation-writer';
+import {ITypeRecipe} from '../type-info/itype-recipe';
 
 /**
  * Source processor inlining instrumentation call.
@@ -14,7 +14,7 @@ export class SourceProcessorInline {
   /**
    * Contains all found references during source file processing.
    */
-  private references: Array<{nodePosition: number, typeId: string}>;
+  private references: Array<{nodePosition: number, typeRecipe: ITypeRecipe}>;
   private compilerModule: TTypeScript;
   private instrumentationWriter: IInstrumentationWriter;
 
@@ -42,7 +42,6 @@ export class SourceProcessorInline {
         const typeChecker = project.getTypeChecker();
         const fixtureType = typeChecker.getTypeAtLocation(nameNode);
         if(fixtureType) {
-          console.warn('processSourceFile(): FOUND FIXTURE TYPE');
           const fixtureClassSymbol = fixtureType.getSymbolOrThrow();
           const fixtureClassDeclaration = fixtureClassSymbol.getDeclarations()[0]  as unknown as ClassDeclaration;
           const methodDecl = fixtureClassDeclaration.getMethodOrThrow('create');
@@ -52,8 +51,8 @@ export class SourceProcessorInline {
           const resultCallNode = idNode.getFirstAncestorByKind(ts.SyntaxKind.CallExpression)!;
 
           const nodePosition = resultCallNode.compilerNode.pos;
-          const typeId = this.createTypeInfo(resultCallNode, typeChecker);
-          this.references.push({nodePosition, typeId});
+          const typeRecipe = this.createTypeRecipe(resultCallNode, typeChecker);
+          this.references.push({nodePosition, typeRecipe});
         }
       }
     }
@@ -67,7 +66,7 @@ export class SourceProcessorInline {
     if(reference && this.compilerModule.isCallExpression(node)) {
       console.warn('REWRITE NODE');
       const callExpression: ts.CallExpression = node as ts.CallExpression;
-      const newParam = this.instrumentationWriter.rewrite(callExpression, reference.typeId);
+      const newParam = this.instrumentationWriter.rewrite(callExpression, reference.typeRecipe);
       return this.compilerModule.updateCall(callExpression, callExpression.expression, callExpression.typeArguments, [newParam]);
     } else {
       return node;
@@ -77,14 +76,12 @@ export class SourceProcessorInline {
   /**
    * Creates type info from fixture.create<T>() expression.
    */
-  private createTypeInfo(callExpression: CallExpression, typeChecker: TypeChecker): string {
+  private createTypeRecipe(callExpression: CallExpression, typeChecker: TypeChecker): ITypeRecipe {
 
     const typeNode = callExpression.getTypeArguments()[0];
     const targetType = typeChecker.getTypeAtLocation(typeNode);
-    const builder = new TypeInfoBuilder();
-    const typeInfo = builder.build(targetType);
-    const storage = TypeInfoStorage.getInstance();
-    const typeId = storage.addTypeInfo(typeInfo);
-    return typeId;
+    const recipeBuilder = new TypeRecipeBuilder();
+    const typeRecipe = recipeBuilder.build(targetType);
+    return typeRecipe;
   }
 }
