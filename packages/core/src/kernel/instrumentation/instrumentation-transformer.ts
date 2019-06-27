@@ -1,6 +1,8 @@
 import * as ts from 'typescript';
 import {SourceProcessorInline} from './source-processor-inline';
 import {InstrumentationWriterInline} from './instrumentation-writer-inline';
+import {IInstrumentationContext} from './iinstrumentation-context';
+import {FixtureReferenceFinder} from './fixture-reference-finder';
 
 export type SourceFileTransformer = (sourceFile: ts.SourceFile) => ts.Node;
 export type TransformerFunction = (ctx: ts.TransformationContext) => SourceFileTransformer;
@@ -25,7 +27,14 @@ export class InstrumentationTransformer {
 
       // Find all references and collect type info
       const instrumentationWriter = new InstrumentationWriterInline(this.compilerModule);
-      const sourceProcessor = new SourceProcessorInline(this.compilerModule, instrumentationWriter);
+      const fixtureReferenceFinder = new FixtureReferenceFinder(this.compilerModule);
+
+      const instrumentationContext: IInstrumentationContext = {
+        instrumentationWriter: instrumentationWriter,
+        fixtureReferenceFinder: fixtureReferenceFinder
+      };
+
+      const sourceProcessor = new SourceProcessorInline(instrumentationContext);
       sourceProcessor.processSourceFile(sourceFile);
 
       // Start transformation

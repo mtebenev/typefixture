@@ -6,5 +6,6 @@
   },
   "search.exclude": {
     "**/node_modules/": true
-  }
+  },
+  "typescript.preferences.quoteStyle": "single"
 }

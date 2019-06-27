@@ -1,4 +1,4 @@
-import {Project, Type, ts} from 'ts-morph';
+import {Project, Type, ts, SourceFile} from 'ts-morph';
 import {TTypeScript} from '../kernel/instrumentation/instrumentation-transformer';
 
 /**
@@ -7,11 +7,19 @@ import {TTypeScript} from '../kernel/instrumentation/instrumentation-transformer
 export class TsTestUtils {
 
   /**
+   * Compiles the source code and returns the source file.
+   */
+  public static getSourceFile(sourceCode: string): SourceFile {
+    const project = new Project();
+    const sourceFile = project.createSourceFile('source.ts', sourceCode);
+    return sourceFile;
+  }
+
+  /**
    * Compiles the source code and retrieves interface type node.
    */
   public static getInterface(typeName: string, sourceCode: string): Type {
-    const project = new Project();
-    const sourceFile = project.createSourceFile('source.ts', sourceCode);
+    const sourceFile = TsTestUtils.getSourceFile(sourceCode);
     const type = sourceFile.getInterfaceOrThrow(typeName).getType();
 
     return type;
@@ -21,8 +29,7 @@ export class TsTestUtils {
    * Compiles the source code and retrieves class type node.
    */
   public static getClass(typeName: string, sourceCode: string): Type {
-    const project = new Project();
-    const sourceFile = project.createSourceFile('source.ts', sourceCode);
+    const sourceFile = TsTestUtils.getSourceFile(sourceCode);
     const type = sourceFile.getClassOrThrow(typeName).getType();
 
     return type;
