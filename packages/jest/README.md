@@ -1,11 +1,4 @@
 # `@typefixture/jest`
 
-> TODO: description
-
-## Usage
-
-```
-const jest = require('@typefixture/jest');
-
-// TODO: DEMONSTRATE API
-```
+Jest integration package for typefixture.
+Please check details at: https://github.com/mtebenev/typefixture

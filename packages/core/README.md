@@ -1,11 +1,4 @@
 # `@typefixture/core`
 
-> TODO: description
-
-## Usage
-
-```
-const core = require('@typefixture/core');
-
-// TODO: DEMONSTRATE API
-```
+Core package for typefixture.
+Please check details at: https://github.com/mtebenev/typefixture

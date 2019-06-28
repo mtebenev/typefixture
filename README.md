@@ -46,5 +46,9 @@ globals: {
 
 Word of caution
 ---------------
-This library is in PoC state.
-ts-morph dependency to be removed.
+* This library is in PoC state.
+* ts-morph dependency to be removed.
+
+Known issues
+------------
+* Use --no-cache jest CLI option (i.e. npx jest --no-cache)
