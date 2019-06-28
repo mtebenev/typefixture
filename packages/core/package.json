@@ -1,6 +1,6 @@
 {
   "name": "@typefixture/core",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Create test fixtures automatically with TypeScript",
   "author": "Maxim Tebenev <mtebenev@gmail.com>",
   "homepage": "https://github.com/mtebenev/typefixture",
