@@ -4,6 +4,7 @@ import {ITypeRecipe} from '../type-info/itype-recipe';
 import {RequestKind} from '../ispecimen-request';
 import {TsTestUtils} from '../../test-utils/ts-test-utils';
 import {TypeRecipeRequestKind} from '../type-info/itype-recipe-request';
+import {ITypeInfo} from '../type-info/itype-info';
 
 describe('InstrumentationWriterInline', () => {
   it('Should convert primitive fields requests', () => {
@@ -25,6 +26,55 @@ describe('InstrumentationWriterInline', () => {
         fields: [
           {name: 'a', request: {kind: RequestKind.number}},
           {name: 'b', request: {kind: RequestKind.string}},
+        ]
+      }
+    });
+  });
+
+  it('Should convert nested fields requests', () => {
+
+    const nestedNestedRecipe: ITypeRecipe = {
+      fields: [
+        {name: 'bx', request: {kind: TypeRecipeRequestKind.number}},
+        {name: 'by', request: {kind: TypeRecipeRequestKind.string}}
+      ]
+    };
+
+    const nestedRecipe: ITypeRecipe = {
+      fields: [
+        {name: 'ax', request: {kind: TypeRecipeRequestKind.number}},
+        {name: 'ay', request: {kind: TypeRecipeRequestKind.string}},
+        {name: 'az', request: {kind: TypeRecipeRequestKind.recipe, value: nestedNestedRecipe}}
+      ]
+    };
+    const typeRecipe: ITypeRecipe = {
+      fields: [
+        {name: 'a', request: {kind: TypeRecipeRequestKind.recipe, value: nestedRecipe}},
+      ]
+    };
+
+    const writer = new InstrumentationWriterInline(ts);
+    const expression = writer.rewrite({} as ts.CallExpression, typeRecipe);
+    const typeInfo = TsTestUtils.printExpression(ts, expression);
+
+    const expectedNestedNested: ITypeInfo = {
+      fields: [
+        {name: 'bx', request: {kind: RequestKind.number}},
+        {name: 'by', request: {kind: RequestKind.string}}
+      ]
+    };
+    const expectedNested: ITypeInfo = {
+      fields: [
+        {name: 'ax', request: {kind: RequestKind.number}},
+        {name: 'ay', request: {kind: RequestKind.string}},
+        {name: 'az', request: {kind: RequestKind.typeInfo, value: expectedNestedNested}}
+      ]
+    };
+    expect(eval(`(${typeInfo})`)).toEqual({
+      kind: RequestKind.typeInfo,
+      value: {
+        fields: [
+          {name: 'a', request: {kind: RequestKind.typeInfo, value: expectedNested}},
         ]
       }
     });

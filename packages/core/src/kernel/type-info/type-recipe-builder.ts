@@ -2,8 +2,8 @@ import {Type} from 'ts-morph';
 import {ITypeRecipe} from './itype-recipe';
 import {TypeRecipeBuilderClass} from './type-recipe-builder-class';
 import {NoTypeInfo} from './no-type-info';
-import {ITypeRecipeContext} from './itype-recipe-context';
 import {TypeRecipeBuilderInterface} from './type-recipe-builder-interface';
+import {TypeRecipeContext} from './type-recipe-context';
 
 export class TypeRecipeBuilder {
 
@@ -19,8 +19,9 @@ export class TypeRecipeBuilder {
       new TypeRecipeBuilderInterface()
     ];
 
+    const context = new TypeRecipeContext();
     for(const builder of builders) {
-      const resolved = builder.create(type, {} as ITypeRecipeContext);
+      const resolved = builder.create(type, context);
       if(!(resolved instanceof NoTypeInfo)) {
         result = resolved;
         break;

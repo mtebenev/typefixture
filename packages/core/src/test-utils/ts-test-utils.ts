@@ -38,7 +38,7 @@ export class TsTestUtils {
   /**
    * Prints a TS expression
    */
-  public static printExpression(compilerModule: TTypeScript, expression: ts.Expression): any {
+  public static printExpression(compilerModule: TTypeScript, expression: ts.Expression): string {
     const printer = compilerModule.createPrinter();
     const sourceFile = compilerModule.createSourceFile('dummy.ts', '', compilerModule.ScriptTarget.Latest, undefined);
     const result = printer.printNode(compilerModule.EmitHint.Expression, expression, sourceFile);

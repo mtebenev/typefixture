@@ -34,6 +34,9 @@ export class InstrumentationWriterInline implements IInstrumentationWriter {
     return result;
   }
 
+  /**
+   * Type recipe -> expression with type info
+   */
   private createTypeInfoExpression(typeRecipe: ITypeRecipe): ts.Expression {
 
     const typeInfoAssignments: ts.ObjectLiteralElementLike[] = [];
@@ -64,7 +67,7 @@ export class InstrumentationWriterInline implements IInstrumentationWriter {
   }
 
   /**
-   * Creates
+   * Creates expression for a member.
    */
   private createMemberExpression(memberRecipe: IMemberRecipe): ts.Expression {
 
@@ -80,17 +83,24 @@ export class InstrumentationWriterInline implements IInstrumentationWriter {
 
   private createMemberRequestExpression(memberRecipe: IMemberRecipe): ts.ObjectLiteralExpression {
 
-    let kindExpression: ts.PropertyAssignment;
+    const propAssignments: ts.PropertyAssignment[] = [];
     if(memberRecipe.request.kind === TypeRecipeRequestKind.number) {
-      kindExpression = this.compilerModule.createPropertyAssignment('kind', this.compilerModule.createLiteral(0));
+      const kindExpression = this.compilerModule.createPropertyAssignment('kind', this.compilerModule.createLiteral(0));
+      propAssignments.push(kindExpression);
     } else if(memberRecipe.request.kind === TypeRecipeRequestKind.string) {
-      kindExpression = this.compilerModule.createPropertyAssignment('kind', this.compilerModule.createLiteral(1));
+      const kindExpression = this.compilerModule.createPropertyAssignment('kind', this.compilerModule.createLiteral(1));
+      propAssignments.push(kindExpression);
+    } else if(memberRecipe.request.kind === TypeRecipeRequestKind.recipe) {
+      const kindExpression = this.compilerModule.createPropertyAssignment('kind', this.compilerModule.createLiteral(2));
+      propAssignments.push(kindExpression);
+      const typeInfoExpressionValue = this.createTypeInfoExpression(memberRecipe.request.value);
+      const valueExpression = this.compilerModule.createPropertyAssignment('value', typeInfoExpressionValue);
+      propAssignments.push(valueExpression)
     } else {
-      throw new Error('Only primitives supported.');
+      throw new Error(`Unsupported type recipe request: ${memberRecipe.request.kind}.`);
     }
 
-    const result = this.compilerModule.createObjectLiteral([kindExpression]);
+    const result = this.compilerModule.createObjectLiteral(propAssignments);
     return result;
   }
-
 }
