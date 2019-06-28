@@ -3,14 +3,15 @@ import {InstrumentationWriterInline} from './instrumentation-writer-inline';
 import {ITypeRecipe} from '../type-info/itype-recipe';
 import {RequestKind} from '../ispecimen-request';
 import {TsTestUtils} from '../../test-utils/ts-test-utils';
+import {TypeRecipeRequestKind} from '../type-info/itype-recipe-request';
 
 describe('InstrumentationWriterInline', () => {
   it('Should convert primitive fields requests', () => {
 
     const typeRecipe: ITypeRecipe = {
       fields: [
-        {name: 'a', request: {kind: RequestKind.number}},
-        {name: 'b', request: {kind: RequestKind.string}},
+        {name: 'a', request: {kind: TypeRecipeRequestKind.number}},
+        {name: 'b', request: {kind: TypeRecipeRequestKind.string}},
       ]
     };
 

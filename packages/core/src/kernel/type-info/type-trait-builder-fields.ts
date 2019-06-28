@@ -1,13 +1,20 @@
 import {ITypeTraitBuilder} from './itype-trait-builder';
 import {Type, PropertySignature, Symbol} from 'ts-morph';
-import {IMemberInfo} from './imember-info';
-import {RequestKind} from '../ispecimen-request';
 import {ITypeRecipe} from './itype-recipe';
+import {ITypeRecipeContext} from './itype-recipe-context';
+import {IMemberRecipe} from './imember-recipe';
+import {ITypeRecipeRequest, TypeRecipeRequestKind} from './itype-recipe-request';
 
 /**
  * Responsible for filling fields info.
  */
 export class TypeTraitBuilderFields implements ITypeTraitBuilder {
+
+  private context: ITypeRecipeContext;
+
+  constructor(context: ITypeRecipeContext) {
+    this.context = context;
+  }
 
   /**
    * ITypeTraitBuilder
@@ -20,26 +27,27 @@ export class TypeTraitBuilderFields implements ITypeTraitBuilder {
   /**
    * Creates request for given member symbol.
    */
-  private createFieldRequest(propertySymbol: Symbol): IMemberInfo {
+  private createFieldRequest(propertySymbol: Symbol): IMemberRecipe {
 
     const propSignature = propertySymbol.getDeclarations()[0] as PropertySignature;
     const propType = propSignature.getType();
-    let requestKind: RequestKind;
+    let memberRequest: ITypeRecipeRequest;
 
     if(propType.isString()) {
-      requestKind = RequestKind.string;
+      memberRequest = {kind: TypeRecipeRequestKind.string};
     } else if(propType.isNumber()) {
-      requestKind = RequestKind.number;
+      memberRequest = {kind: TypeRecipeRequestKind.number};
     } else {
-      throw new Error('Unsupported field type.');
+      memberRequest = {
+        kind: TypeRecipeRequestKind.recipe,
+        value: this.context.resolveType(propType)
+      }
     }
 
-    const memberInfo: IMemberInfo = {
+    const memberRecipe: IMemberRecipe = {
       name: propertySymbol.getName(),
-      request: {
-        kind: requestKind
-      }
+      request: memberRequest
     };
-    return memberInfo;
+    return memberRecipe;
   }
 }

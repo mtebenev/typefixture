@@ -25,7 +25,7 @@ export class TypeRecipeBuilderInterface implements ITypeRecipeBuilder {
           fields: []
         };
 
-        const fieldsBuilder = new TypeTraitBuilderFields();
+        const fieldsBuilder = new TypeTraitBuilderFields(context);
         fieldsBuilder.build(type, typeRecipe);
         result = typeRecipe;
       }
