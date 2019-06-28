@@ -1,9 +1,15 @@
 {
   "name": "@typefixture/core",
   "version": "0.0.1",
-  "description": "> TODO: description",
+  "description": "Create test fixtures automatically with TypeScript",
   "author": "Maxim Tebenev <mtebenev@gmail.com>",
-  "homepage": "",
+  "homepage": "https://github.com/mtebenev/typefixture",
+  "keywords": [
+    "testing",
+    "fixture",
+    "autofixture",
+    "mock"
+  ],
   "license": "MIT",
   "main": "dist/typefixture-core.umd.js",
   "module": "dist/typefixture-core.es5.js",

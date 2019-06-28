@@ -1,9 +1,15 @@
 {
   "name": "@typefixture/jest",
   "version": "0.0.1",
-  "description": "> TODO: description",
+  "description": "typefixture integration with Jest",
   "author": "Maxim Tebenev <mtebenev@gmail.com>",
-  "homepage": "",
+  "homepage": "https://github.com/mtebenev/typefixture",
+  "keywords": [
+    "testing",
+    "fixture",
+    "autofixture",
+    "mock"
+  ],
   "license": "MIT",
   "main": "dist/typefixture-jest.umd.js",
   "module": "dist/typefixture-jest.es5.js",
