@@ -1,7 +1,7 @@
 {
   "name": "sample-jest",
   "private": true,
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "> TODO: description",
   "author": "Maxim Tebenev <mtebenev@gmail.com>",
   "homepage": "https://github.com/mtebenev/typefixture#readme",
@@ -21,8 +21,8 @@
     "url": "https://github.com/mtebenev/typefixture/issues"
   },
   "devDependencies": {
-    "@typefixture/core": "^0.0.2",
-    "@typefixture/jest": "^0.0.2",
+    "@typefixture/core": "^0.0.3",
+    "@typefixture/jest": "^0.0.3",
     "jest": "24.8.0",
     "ts-jest": "24.0.2",
     "ts-morph": "2.3.0"

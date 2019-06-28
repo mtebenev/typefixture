@@ -1,6 +1,6 @@
 {
   "name": "@typefixture/jest",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "typefixture integration with Jest",
   "author": "Maxim Tebenev <mtebenev@gmail.com>",
   "homepage": "https://github.com/mtebenev/typefixture",
@@ -29,6 +29,6 @@
     "ts-morph": "2.3.0"
   },
   "dependencies": {
-    "@typefixture/core": "^0.0.2"
+    "@typefixture/core": "^0.0.3"
   }
 }
