@@ -1,5 +1,5 @@
 import {Type} from 'ts-morph';
-import {ITypeRecipe} from './itype-recipe';
+import {ITypeRecipeRequest} from './itype-recipe-request';
 
 /**
  * The context available during build stage.
@@ -9,5 +9,5 @@ export interface ITypeRecipeContext {
   /**
    * Resolves (or creates) a type recipe for the given type.
    */
-  resolveType(type: Type): ITypeRecipe;
+  resolveType(type: Type): ITypeRecipeRequest;
 }
