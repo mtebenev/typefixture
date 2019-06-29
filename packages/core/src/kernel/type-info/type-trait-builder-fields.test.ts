@@ -2,7 +2,7 @@ import {TsTestUtils} from '../../test-utils/ts-test-utils';
 import {TypeTraitBuilderFields} from './type-trait-builder-fields';
 import {ITypeRecipeContext} from './itype-recipe-context';
 import {ITypeRecipe} from './itype-recipe';
-import {TypeRecipeRequestKind} from './itype-recipe-request';
+import {TypeRecipeRequestKind, ITypeRecipeRequest} from './itype-recipe-request';
 
 describe('TypeTraitBuilderFields', () => {
   it('Should create primitive fields', () => {
@@ -46,11 +46,11 @@ describe('TypeTraitBuilderFields', () => {
       }
 `    );
 
-    const nestedRecipe = {};
-    const context: Partial<ITypeRecipeContext> = {
-      resolveType: jest.fn(() => {return nestedRecipe as ITypeRecipe})
+    const nestedRecipeRequest = {} as ITypeRecipeRequest;
+    const mockContext: Partial<ITypeRecipeContext> = {
+      resolveType: jest.fn(() => nestedRecipeRequest)
     };
-    const builder = new TypeTraitBuilderFields(context as ITypeRecipeContext);
+    const builder = new TypeTraitBuilderFields(mockContext as ITypeRecipeContext);
 
     const typeRecipe = {} as ITypeRecipe;
     builder.build(type, typeRecipe);
@@ -58,7 +58,7 @@ describe('TypeTraitBuilderFields', () => {
     expect(typeRecipe.fields.length).toEqual(1);
     expect(typeRecipe.fields).toContainEqual({
       name: 'a',
-      request: {kind: TypeRecipeRequestKind.recipe, value: nestedRecipe}
+      request: {kind: TypeRecipeRequestKind.recipe, value: nestedRecipeRequest}
     });
   });
 });
