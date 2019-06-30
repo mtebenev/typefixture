@@ -22,7 +22,8 @@
   },
   "scripts": {
     "build": "tsc --module commonjs && rollup -c rollup.config.ts",
-    "test": "jest --no-cache"
+    "test": "jest --no-cache",
+    "tslint": "tslint -p ./tsconfig.json"
   },
   "dependencies": {
     "ts-morph": "2.3.0"

@@ -12,7 +12,7 @@ export class TypeRecipeBuilderInterface implements ITypeRecipeBuilder {
 
   /**
    * ITypeInfoBuilder
-.   */
+   */
   public create(type: Type, context: ITypeRecipeContext): ITypeRecipe | NoTypeInfo {
 
     // Check if the type is an interface

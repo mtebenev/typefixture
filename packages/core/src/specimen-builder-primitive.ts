@@ -12,12 +12,13 @@ export class SpecimenBuilderPrimitive implements ISpecimenBuilder {
   public create(request: ISpecimenRequest, context: ISpecimenContext): any {
 
     let result;
-    if(request.kind === RequestKind.string)
+    if(request.kind === RequestKind.string) {
       result = 'random string';
-    else if(request.kind === RequestKind.number)
+    } else if(request.kind === RequestKind.number) {
       result = 42;
-    else
+    } else {
       result = new NoSpecimen();
+    }
 
     return result;
   }

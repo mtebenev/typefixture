@@ -39,4 +39,3 @@ export interface ISpecimenRequest {
    */
   value?: any;
 }
-

@@ -5,6 +5,7 @@
     "build-core": "lerna run build --scope @typefixture/core",
     "build-jest": "lerna run build --scope @typefixture/jest",
     "test-core": "lerna run test --scope @typefixture/core --stream",
+    "tslint-core": "lerna run tslint --scope @typefixture/core --stream",
     "sample-jest": "lerna run test --scope sample-jest --stream",
     "publish": "lerna run tsc && lerna publish"
   },
@@ -23,6 +24,7 @@
     "rollup-plugin-typescript2": "0.21.2",
     "ts-jest": "24.0.2",
     "ts-node": "8.3.0",
+    "tslint": "5.18.0",
     "typescript": "3.5.2"
   }
 }

@@ -27,7 +27,7 @@ export class TypeTraitBuilderConstructors implements ITypeTraitBuilder {
       .getMembers()
       .filter(m => m.hasFlags(ts.SymbolFlags.Constructor))
       .map(m => m.getDeclarations()[0] as ConstructorDeclaration)
-      .sort((cd1, cd2) => {return cd1.getParameters().length > cd2.getParameters().length ? 1 : -1;});
+      .sort((cd1, cd2) => cd1.getParameters().length > cd2.getParameters().length ? 1 : -1);
 
     // Fill constructor info if there's no default constructor (one without parameters)
     if(ctors.length > 0 && ctors[0].getParameters().length > 0) {
