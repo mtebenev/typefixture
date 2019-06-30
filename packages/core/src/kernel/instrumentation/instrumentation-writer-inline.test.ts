@@ -93,3 +93,37 @@ test('Should create constructor', () => {
 
   expect(typeInfoStr).toContain('ctor: SomeClass'); // Cannot eval because SomeClass injected as symbol
 });
+
+test('Should create constructor arguments', () => {
+  const typeRecipe: ITypeRecipe = {
+    ctor: {
+      name: 'ctor',
+      arguments: [
+        {name: 'a', typeRecipeRequest: {kind: TypeRecipeRequestKind.number}},
+        {name: 'b', typeRecipeRequest: {kind: TypeRecipeRequestKind.string}}
+      ]
+    },
+    fields: []
+  };
+
+  const writer = new InstrumentationWriterInline(ts);
+  const expression = writer.rewrite({} as ts.CallExpression, {kind: TypeRecipeRequestKind.recipe, value: typeRecipe});
+  const typeInfo = TsTestUtils.printExpression(ts, expression);
+
+  const expectedTypeInfo: ITypeInfo = {
+    fields: [],
+    ctorInfo: {
+      arguments: [
+        {name: 'a', request: {kind: RequestKind.number}},
+        {name: 'b', request: {kind: RequestKind.string}}
+      ],
+      name: 'ctor'
+    }
+  };
+
+  // tslint:disable-next-line:no-eval
+  expect(eval(`(${typeInfo})`)).toEqual({
+    kind: RequestKind.typeInfo,
+    value: expectedTypeInfo
+  });
+});

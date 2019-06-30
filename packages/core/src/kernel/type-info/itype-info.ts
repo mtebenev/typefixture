@@ -1,4 +1,5 @@
 import {IMemberInfo} from './imember-info';
+import {IMethodInfo} from './imethod-info';
 
 /**
  * Provides re-constructed type info from AST
@@ -14,4 +15,9 @@ export interface ITypeInfo {
    * If defined, then the type is instantiable with new operator.
    */
   ctor?: new() => any;
+
+  /**
+   * Provides ctor arguments info if defined.
+   */
+  ctorInfo?: IMethodInfo;
 }

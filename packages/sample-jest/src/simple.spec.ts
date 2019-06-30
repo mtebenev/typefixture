@@ -1,5 +1,7 @@
 import {Fixture} from '@typefixture/core';
 
+// tslint:disable:max-classes-per-file
+
 interface ITestInterface {
   a: number;
   b: string;
