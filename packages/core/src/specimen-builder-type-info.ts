@@ -29,7 +29,7 @@ export class SpecimenBuilderTypeInfo implements ISpecimenBuilder {
     }
 
     if(typeInfo) {
-      // Create the specimen with constructor or signature
+      // Create the specimen with constructor or signature object
       if(typeInfo.ctor) {
         result = new typeInfo.ctor()
       } else {

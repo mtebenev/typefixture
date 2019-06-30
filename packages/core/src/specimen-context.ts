@@ -1,4 +1,5 @@
 import {ISpecimenContext, ISpecimenBuilder} from './kernel';
+import {ISpecimenRequest} from './kernel/ispecimen-request';
 
 export class SpecimenContext implements ISpecimenContext {
 
@@ -8,7 +9,7 @@ export class SpecimenContext implements ISpecimenContext {
   /**
    * ISpecimenContext
    */
-  public resolve(request: any): any {
+  public resolve(request: ISpecimenRequest): any {
     return this.builder.create(request, this);
   }
 }

@@ -18,7 +18,7 @@ export class Fixture {
   /**
    * Create a single specimen instance
    */
-  public create<T>(request?: string): T {
+  public create<T>(request?: ISpecimenRequest): T {
     if(!request) {
       throw new Error('Failed to create specimen: probably instrumentation failed.');
     }
