@@ -1,0 +1,33 @@
+{
+  "name": "@typefixture/angular",
+  "version": "0.0.3",
+  "description": "typefixture integration with Angular",
+  "keywords": [
+    "testing",
+    "angular",
+    "mock",
+    "autofixture"
+  ],
+  "author": "Maxim Tebenev <mtebenev@gmail.com>",
+  "homepage": "https://github.com/mtebenev/typefixture#readme",
+  "license": "MIT",
+  "main": "dist/typefixture-angular.umd.js",
+  "module": "dist/typefixture-angular.es5.js",
+  "typings": "dist/types/typefixture-angular.d.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mtebenev/typefixture.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc --module commonjs && rollup -c rollup.config.ts"
+  },
+  "bugs": {
+    "url": "https://github.com/mtebenev/typefixture/issues"
+  }
+}

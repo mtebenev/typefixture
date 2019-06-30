@@ -2,14 +2,14 @@
   "name": "@typefixture/jest",
   "version": "0.0.3",
   "description": "typefixture integration with Jest",
-  "author": "Maxim Tebenev <mtebenev@gmail.com>",
-  "homepage": "https://github.com/mtebenev/typefixture",
   "keywords": [
     "testing",
     "fixture",
     "autofixture",
     "mock"
   ],
+  "author": "Maxim Tebenev <mtebenev@gmail.com>",
+  "homepage": "https://github.com/mtebenev/typefixture",
   "license": "MIT",
   "main": "dist/typefixture-jest.umd.js",
   "module": "dist/typefixture-jest.es5.js",
@@ -30,5 +30,8 @@
   },
   "dependencies": {
     "@typefixture/core": "^0.0.3"
+  },
+  "bugs": {
+    "url": "https://github.com/mtebenev/typefixture/issues"
   }
 }
