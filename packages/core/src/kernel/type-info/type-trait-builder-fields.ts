@@ -38,10 +38,7 @@ export class TypeTraitBuilderFields implements ITypeTraitBuilder {
     } else if(propType.isNumber()) {
       memberRequest = {kind: TypeRecipeRequestKind.number};
     } else {
-      memberRequest = {
-        kind: TypeRecipeRequestKind.recipe,
-        value: this.context.resolveType(propType)
-      }
+      memberRequest = this.context.resolveTypeOrThrow(propType);
     }
 
     const memberRecipe: IMemberRecipe = {

@@ -99,7 +99,7 @@ export class InstrumentationWriterInline implements IInstrumentationWriter {
     } else if(memberRecipe.request.kind === TypeRecipeRequestKind.recipe) {
       const kindExpression = this.compilerModule.createPropertyAssignment('kind', this.compilerModule.createLiteral(2));
       propAssignments.push(kindExpression);
-      const typeInfoExpressionValue = this.createTypeInfoExpression(memberRecipe.request.value);
+      const typeInfoExpressionValue = this.createTypeInfoExpression(memberRecipe.request);
       const valueExpression = this.compilerModule.createPropertyAssignment('value', typeInfoExpressionValue);
       propAssignments.push(valueExpression)
     } else {

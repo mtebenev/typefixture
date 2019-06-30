@@ -48,7 +48,7 @@ describe('TypeTraitBuilderFields', () => {
 
     const nestedRecipeRequest = {} as ITypeRecipeRequest;
     const mockContext: Partial<ITypeRecipeContext> = {
-      resolveType: jest.fn(() => nestedRecipeRequest)
+      resolveTypeOrThrow: jest.fn(() => nestedRecipeRequest)
     };
     const builder = new TypeTraitBuilderFields(mockContext as ITypeRecipeContext);
 
@@ -58,7 +58,7 @@ describe('TypeTraitBuilderFields', () => {
     expect(typeRecipe.fields.length).toEqual(1);
     expect(typeRecipe.fields).toContainEqual({
       name: 'a',
-      request: {kind: TypeRecipeRequestKind.recipe, value: nestedRecipeRequest}
+      request: nestedRecipeRequest
     });
   });
 });

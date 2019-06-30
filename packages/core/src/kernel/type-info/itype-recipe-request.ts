@@ -1,3 +1,5 @@
+import {ITypeRecipe} from './itype-recipe';
+
 /**
  * Supported type recipe requests.
  */
@@ -32,6 +34,6 @@ export interface ITypeRecipeRequest {
   /**
    * Depends on the request kind.
    */
-  value?: any;
+  value?: ITypeRecipe;
 }
 

@@ -24,17 +24,17 @@ class TestClass {
 test('Should create constructor info.', () => {
   const type = TsTestUtils.getClass(
     'TestClass',
-    `
+`
 class TestClass {
   constructor(a: number) {}
 }
-`    );
+`
+  );
 
-
-const argumentRequest = {} as ITypeRecipeRequest;
-const mockContext: Partial<ITypeRecipeContext> = {
-  resolveType: jest.fn(() => argumentRequest)
-};
+  const argumentRequest = {} as ITypeRecipeRequest;
+  const mockContext: Partial<ITypeRecipeContext> = {
+    resolveTypeOrThrow: jest.fn(() => argumentRequest)
+  };
 
   const builder = new TypeTraitBuilderConstructors(mockContext as ITypeRecipeContext);
   const typeRecipe = {} as ITypeRecipe;

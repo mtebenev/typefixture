@@ -7,14 +7,14 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Debug Jest Tests",
+      "name": "Debug typefixture/core tests",
       "cwd": "${workspaceFolder}",
       "args": [
         "--inspect-brk",
         "${workspaceRoot}/node_modules/.bin/jest",
         "--runInBand",
         "--config",
-        "${workspaceRoot}/jest.config.js"
+        "${workspaceRoot}/packages/core/jest.config.js"
       ],
       "windows": {
         "args": [
@@ -22,7 +22,7 @@
           "${workspaceRoot}/node_modules/jest/bin/jest.js",
           "--runInBand",
           "--config",
-          "${workspaceRoot}/jest.config.js"
+          "${workspaceRoot}/packages/core/jest.config.js"
         ],
       },
       "console": "integratedTerminal",
