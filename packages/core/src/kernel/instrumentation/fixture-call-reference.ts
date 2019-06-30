@@ -1,8 +1,8 @@
 import {CallExpression, ts, TypeChecker} from 'ts-morph';
 import {TTypeScript} from './instrumentation-transformer';
-import {ITypeRecipe} from '../type-info/itype-recipe';
 import {TypeRecipeBuilder} from '../type-info/type-recipe-builder';
 import {IInstrumentationWriter} from './iinstrumentation-writer';
+import {ITypeRecipeRequest} from '../type-info/itype-recipe-request';
 
 /**
  * Encapsulates info about reference to fixture.create() call.
@@ -37,7 +37,7 @@ export class FixtureCallReference {
    */
   public rewrite(node: ts.Node, instrumentationWriter: IInstrumentationWriter): ts.Node {
     const callExpression: ts.CallExpression = node as ts.CallExpression;
-    const typeRecipe = this.createTypeRecipe();
+    const typeRecipe = this.createTypeRecipeRequest();
     const newParam = instrumentationWriter.rewrite(callExpression, typeRecipe);
     return this.compilerModule.updateCall(callExpression, callExpression.expression, callExpression.typeArguments, [newParam]);
   }
@@ -45,12 +45,11 @@ export class FixtureCallReference {
   /**
    * Creates type recipe from fixture.create<T>() expression.
    */
-  private createTypeRecipe(): ITypeRecipe {
-
+  private createTypeRecipeRequest(): ITypeRecipeRequest {
     const typeNode = this.callExpression.getTypeArguments()[0];
     const targetType = this.typeChecker.getTypeAtLocation(typeNode);
     const recipeBuilder = new TypeRecipeBuilder();
-    const typeRecipe = recipeBuilder.build(targetType);
-    return typeRecipe;
+    const typeRecipeRequest = recipeBuilder.build(targetType);
+    return typeRecipeRequest;
   }
 }

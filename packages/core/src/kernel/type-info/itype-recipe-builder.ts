@@ -1,7 +1,7 @@
 import {Type} from 'ts-morph';
 import {NoTypeInfo} from './no-type-info';
-import {ITypeRecipe} from './itype-recipe';
 import {ITypeRecipeContext} from './itype-recipe-context';
+import {ITypeRecipeRequest} from './itype-recipe-request';
 
 /**
  * Builds type recipe based on the TS Type node.
@@ -11,5 +11,5 @@ import {ITypeRecipeContext} from './itype-recipe-context';
  * Runtime stage: during the tests execution we have only information prepared on the source analysis stage.
  */
 export interface ITypeRecipeBuilder {
-  create(type: Type, context: ITypeRecipeContext): ITypeRecipe | NoTypeInfo;
+  create(type: Type, context: ITypeRecipeContext): ITypeRecipeRequest | NoTypeInfo;
 }

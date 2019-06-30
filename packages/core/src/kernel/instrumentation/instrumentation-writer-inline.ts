@@ -3,7 +3,7 @@ import {IInstrumentationWriter} from './iinstrumentation-writer';
 import {TTypeScript} from './instrumentation-transformer';
 import {ITypeRecipe} from '../type-info/itype-recipe';
 import {IMemberRecipe} from '../type-info/imember-recipe';
-import {TypeRecipeRequestKind} from '../type-info/itype-recipe-request';
+import {TypeRecipeRequestKind, ITypeRecipeRequest} from '../type-info/itype-recipe-request';
 
 /**
  * Inline instrumentation
@@ -19,9 +19,9 @@ export class InstrumentationWriterInline implements IInstrumentationWriter {
   /**
    * IInstrumentationWriter
    */
-  public rewrite(callExpression: ts.CallExpression, typeRecipe: ITypeRecipe): ts.Expression {
+  public rewrite(callExpression: ts.CallExpression, typeRecipeRequest: ITypeRecipeRequest): ts.Expression {
 
-    const typeInfoExpression = this.createTypeInfoExpression(typeRecipe);
+    const typeInfoExpression = this.createTypeInfoExpression(typeRecipeRequest);
 
     // Create specimen request expression
     const requestProperties: ts.PropertyAssignment[] =
@@ -37,9 +37,15 @@ export class InstrumentationWriterInline implements IInstrumentationWriter {
   /**
    * Type recipe -> expression with type info
    */
-  private createTypeInfoExpression(typeRecipe: ITypeRecipe): ts.Expression {
+  private createTypeInfoExpression(typeRecipeRequest: ITypeRecipeRequest): ts.Expression {
 
     const typeInfoAssignments: ts.ObjectLiteralElementLike[] = [];
+
+    if(typeRecipeRequest.kind !== TypeRecipeRequestKind.recipe) {
+      throw new Error(`Unsupported type recipe: ${typeRecipeRequest.kind}`);
+    }
+
+    const typeRecipe = typeRecipeRequest.value as ITypeRecipe;
 
     // Fields
     const memberExpressions = typeRecipe.fields.map(f => this.createMemberExpression(f));

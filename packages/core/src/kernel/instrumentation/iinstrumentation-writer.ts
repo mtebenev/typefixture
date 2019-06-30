@@ -1,5 +1,5 @@
 import * as ts from 'typescript';
-import {ITypeRecipe} from '../type-info/itype-recipe';
+import {ITypeRecipeRequest} from '../type-info/itype-recipe-request';
 
 /**
  * Responsible for rewriting fixture.create() method.
@@ -12,5 +12,5 @@ export interface IInstrumentationWriter {
    * @param typeId the type to be instrumented.
    * @returns expression to be written for fixture.create() argument.
    */
-  rewrite(callExpression: ts.CallExpression, typeRecipe: ITypeRecipe): ts.Expression;
+  rewrite(callExpression: ts.CallExpression, typeRecipeRequest: ITypeRecipeRequest): ts.Expression;
 }

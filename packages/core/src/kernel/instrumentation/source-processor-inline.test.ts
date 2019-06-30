@@ -7,56 +7,54 @@ import {FixtureCallReference} from './fixture-call-reference';
 
 jest.mock('./fixture-reference-finder');
 
-describe('SourceProcessorInline', () => {
-  it('Should rewrite matched nodes', () => {
+test('Should rewrite matched nodes', () => {
 
-    // Arrange
-    const mockMatchedNode: ts.Node = {} as ts.Node;
-    const mockRewrittenNode: ts.Node = {} as ts.Node;
+  // Arrange
+  const mockMatchedNode: ts.Node = {} as ts.Node;
+  const mockRewrittenNode: ts.Node = {} as ts.Node;
 
-    const mockCallReference: Partial<FixtureCallReference> = {
-      match: jest.fn((node) => node === mockMatchedNode ? true : false),
-      rewrite: jest.fn(() => mockRewrittenNode),
-    };
+  const mockCallReference: Partial<FixtureCallReference> = {
+    match: jest.fn((node) => node === mockMatchedNode ? true : false),
+    rewrite: jest.fn(() => mockRewrittenNode),
+  };
 
-    const mockFrf: IFixtureReferenceFinder = {
-      findReferences: jest.fn(() => [
-        mockCallReference as FixtureCallReference
-      ])
-    };
+  const mockFrf: IFixtureReferenceFinder = {
+    findReferences: jest.fn(() => [
+      mockCallReference as FixtureCallReference
+    ])
+  };
 
-    const context: IInstrumentationContext = {
-      fixtureReferenceFinder: mockFrf,
-      instrumentationWriter: {} as IInstrumentationWriter
-    };
+  const context: IInstrumentationContext = {
+    fixtureReferenceFinder: mockFrf,
+    instrumentationWriter: {} as IInstrumentationWriter
+  };
 
-    // Act
-    const processor = new SourceProcessorInline(context);
-    processor.processSourceFile({} as ts.SourceFile);
+  // Act
+  const processor = new SourceProcessorInline(context);
+  processor.processSourceFile({} as ts.SourceFile);
 
-    // Verify
-    expect(processor.rewriteNode(mockMatchedNode)).toStrictEqual(mockRewrittenNode);
-  });
+  // Verify
+  expect(processor.rewriteNode(mockMatchedNode)).toStrictEqual(mockRewrittenNode);
+});
 
-  it('Should keep non-matched nodes', () => {
+test('Should keep non-matched nodes', () => {
 
-    // Arrange
-    const mockNode: ts.Node = {} as ts.Node;
+  // Arrange
+  const mockNode: ts.Node = {} as ts.Node;
 
-    const mockFrf: IFixtureReferenceFinder = {
-      findReferences: jest.fn(() => []) // 'No references found'
-    };
+  const mockFrf: IFixtureReferenceFinder = {
+    findReferences: jest.fn(() => []) // 'No references found'
+  };
 
-    const context: IInstrumentationContext = {
-      fixtureReferenceFinder: mockFrf,
-      instrumentationWriter: {} as IInstrumentationWriter
-    };
+  const context: IInstrumentationContext = {
+    fixtureReferenceFinder: mockFrf,
+    instrumentationWriter: {} as IInstrumentationWriter
+  };
 
-    // Act
-    const processor = new SourceProcessorInline(context);
-    processor.processSourceFile({} as ts.SourceFile);
+  // Act
+  const processor = new SourceProcessorInline(context);
+  processor.processSourceFile({} as ts.SourceFile);
 
-    // Verify
-    expect(processor.rewriteNode(mockNode)).toStrictEqual(mockNode);
-  });
+  // Verify
+  expect(processor.rewriteNode(mockNode)).toStrictEqual(mockNode);
 });

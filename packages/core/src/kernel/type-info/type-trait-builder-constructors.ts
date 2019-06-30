@@ -2,7 +2,8 @@ import {ITypeTraitBuilder} from './itype-trait-builder';
 import {Type, ts, ConstructorDeclaration} from 'ts-morph';
 import {ITypeRecipe} from './itype-recipe';
 import {ITypeRecipeContext} from './itype-recipe-context';
-import {ITypeRecipeRequest, TypeRecipeRequestKind} from './itype-recipe-request';
+import {IMethodRecipe} from './imethod-recipe';
+import {IArgumentRecipe} from './iargument-recipe';
 
 /**
  * Responsible for filling constructors info.
@@ -31,13 +32,19 @@ export class TypeTraitBuilderConstructors implements ITypeTraitBuilder {
     // Fill constructor info if there's no default constructor (one without parameters)
     if(ctors.length > 0 && ctors[0].getParameters().length > 0) {
       const ctorArguments = ctors[0].getParameters().map(p => {
-        const paramRequest = this.context.resolveType(p.getType());
-        return {
+        const paramRequest = this.context.resolveTypeOrThrow(p.getType());
+        const argRecipe: IArgumentRecipe = {
           name: p.getName(),
           typeRecipeRequest: paramRequest
-        }
+        };
+        return argRecipe;
       });
-      typeRecipe.ctor = {name: 'ctor', arguments: ctorArguments};
+
+      const result: IMethodRecipe = {
+        name: 'ctor',
+        arguments: ctorArguments
+      };
+      typeRecipe.ctor = result;
     }
   }
 }
