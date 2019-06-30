@@ -21,12 +21,13 @@ export class TypeTraitBuilderFields implements ITypeTraitBuilder {
    */
   public build(type: Type, typeInfo: Partial<ITypeRecipe>): void {
     const props = type.getProperties();
-    typeInfo.fields = props.map(p => this.createFieldRequest(p))
+    typeInfo.fields = props.map(p => this.createFieldRequest(p));
   }
 
   /**
    * Creates request for given member symbol.
    */
+  // tslint:disable-next-line:ban-types
   private createFieldRequest(propertySymbol: Symbol): IMemberRecipe {
 
     const propSignature = propertySymbol.getDeclarations()[0] as PropertySignature;

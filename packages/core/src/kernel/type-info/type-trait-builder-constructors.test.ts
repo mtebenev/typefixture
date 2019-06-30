@@ -45,6 +45,6 @@ class TestClass {
     arguments: [
       {name: 'a', typeRecipeRequest: argumentRequest}
     ]
-  }
+  };
   expect(typeRecipe.ctor).toEqual(expectedCtor);
 });

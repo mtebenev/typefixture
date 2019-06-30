@@ -14,7 +14,7 @@ test('Should rewrite matched nodes', () => {
   const mockRewrittenNode: ts.Node = {} as ts.Node;
 
   const mockCallReference: Partial<FixtureCallReference> = {
-    match: jest.fn((node) => node === mockMatchedNode ? true : false),
+    match: jest.fn(node => node === mockMatchedNode ? true : false),
     rewrite: jest.fn(() => mockRewrittenNode),
   };
 

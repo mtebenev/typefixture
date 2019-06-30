@@ -25,10 +25,10 @@ export class InstrumentationWriterInline implements IInstrumentationWriter {
 
     // Create specimen request expression
     const requestProperties: ts.PropertyAssignment[] =
-    [
-      this.compilerModule.createPropertyAssignment('kind', this.compilerModule.createLiteral(2)),
-      this.compilerModule.createPropertyAssignment('value', typeInfoExpression)
-    ];
+      [
+        this.compilerModule.createPropertyAssignment('kind', this.compilerModule.createLiteral(2)),
+        this.compilerModule.createPropertyAssignment('value', typeInfoExpression)
+      ];
 
     const result = this.compilerModule.createObjectLiteral(requestProperties);
     return result;
@@ -59,7 +59,7 @@ export class InstrumentationWriterInline implements IInstrumentationWriter {
       typeInfoAssignments.push(ctorAssignment);
     }
 
-    const result =  this.compilerModule.createObjectLiteral(typeInfoAssignments);
+    const result = this.compilerModule.createObjectLiteral(typeInfoAssignments);
 
     return result;
   }
@@ -69,7 +69,7 @@ export class InstrumentationWriterInline implements IInstrumentationWriter {
     const result = this.compilerModule.createPropertyAssignment(
       'ctor',
       ctorIdentifier);
-      return result;
+    return result;
   }
 
   /**
@@ -77,12 +77,12 @@ export class InstrumentationWriterInline implements IInstrumentationWriter {
    */
   private createMemberExpression(memberRecipe: IMemberRecipe): ts.Expression {
 
-    let requestEpxression = this.createMemberRequestExpression(memberRecipe);
+    const requestEpxression = this.createMemberRequestExpression(memberRecipe);
     const requestProperties: ts.PropertyAssignment[] =
-    [
-      this.compilerModule.createPropertyAssignment('name', this.compilerModule.createLiteral(memberRecipe.name)),
-      this.compilerModule.createPropertyAssignment('request', requestEpxression)
-    ];
+      [
+        this.compilerModule.createPropertyAssignment('name', this.compilerModule.createLiteral(memberRecipe.name)),
+        this.compilerModule.createPropertyAssignment('request', requestEpxression)
+      ];
     const result = this.compilerModule.createObjectLiteral(requestProperties);
     return result;
   }
@@ -101,7 +101,7 @@ export class InstrumentationWriterInline implements IInstrumentationWriter {
       propAssignments.push(kindExpression);
       const typeInfoExpressionValue = this.createTypeInfoExpression(memberRecipe.request);
       const valueExpression = this.compilerModule.createPropertyAssignment('value', typeInfoExpressionValue);
-      propAssignments.push(valueExpression)
+      propAssignments.push(valueExpression);
     } else {
       throw new Error(`Unsupported type recipe request: ${memberRecipe.request.kind}.`);
     }

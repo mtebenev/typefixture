@@ -13,5 +13,5 @@ export interface ITypeInfo {
   /**
    * If defined, then the type is instantiable with new operator.
    */
-  ctor?: {new(): any};
+  ctor?: new() => any;
 }

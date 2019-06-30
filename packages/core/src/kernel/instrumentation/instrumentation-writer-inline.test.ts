@@ -19,6 +19,7 @@ test('Should convert primitive fields requests', () => {
   const expression = writer.rewrite({} as ts.CallExpression, {kind: TypeRecipeRequestKind.recipe, value: typeRecipe});
   const typeInfo = TsTestUtils.printExpression(ts, expression);
 
+  // tslint:disable-next-line:no-eval
   expect(eval(`(${typeInfo})`)).toEqual({
     kind: RequestKind.typeInfo,
     value: {
@@ -69,6 +70,7 @@ test('Should convert nested fields requests', () => {
       {name: 'az', request: {kind: RequestKind.typeInfo, value: expectedNestedNested}}
     ]
   };
+  // tslint:disable-next-line:no-eval
   expect(eval(`(${typeInfo})`)).toEqual({
     kind: RequestKind.typeInfo,
     value: {

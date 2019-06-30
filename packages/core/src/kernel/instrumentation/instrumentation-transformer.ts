@@ -23,8 +23,6 @@ export class InstrumentationTransformer {
   public transform(context: ts.TransformationContext): SourceFileTransformer {
     return (sourceFile: ts.SourceFile) => {
 
-      console.log('Transforming file: ' + sourceFile.fileName);
-
       // Find all references and collect type info
       const instrumentationWriter = new InstrumentationWriterInline(this.compilerModule);
       const fixtureReferenceFinder = new FixtureReferenceFinder(this.compilerModule);
@@ -40,7 +38,7 @@ export class InstrumentationTransformer {
       // Start transformation
       const result = this.compilerModule.visitNode(
         sourceFile,
-        (node) => this.visitNode(node, context, sourceProcessor)
+        node => this.visitNode(node, context, sourceProcessor)
       );
 
       return result;
@@ -57,12 +55,12 @@ export class InstrumentationTransformer {
 
   private visitNode(node: ts.Node, ctx: ts.TransformationContext, sourceProcessor: SourceProcessorInline): ts.Node {
     const newNode = sourceProcessor.rewriteNode(node);
-    if(newNode != node) {
+    if(newNode !== node) {
       return newNode;
     } else {
       return this.compilerModule.visitEachChild(
         node,
-        (node) => this.visitNode(node, ctx, sourceProcessor),
+        childNode => this.visitNode(childNode, ctx, sourceProcessor),
         ctx
       );
     }

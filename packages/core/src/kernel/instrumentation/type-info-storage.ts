@@ -6,8 +6,6 @@ import {uuid} from '../../utils/uuid';
  */
 export class TypeInfoStorage {
 
-  private storage: Map<string, ITypeInfo>;
-
   public static getInstance(): TypeInfoStorage {
     if(!(global as any).__typeFixtureStorage) {
       (global as any).__typeFixtureStorage = new TypeInfoStorage();
@@ -15,6 +13,8 @@ export class TypeInfoStorage {
 
     return (global as any).__typeFixtureStorage;
   }
+
+  private storage: Map<string, ITypeInfo>;
 
   constructor() {
     this.storage = new Map<string, ITypeInfo>();

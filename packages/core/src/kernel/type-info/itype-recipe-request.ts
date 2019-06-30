@@ -36,4 +36,3 @@ export interface ITypeRecipeRequest {
    */
   value?: ITypeRecipe;
 }
-
