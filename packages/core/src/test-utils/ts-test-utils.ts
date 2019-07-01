@@ -36,6 +36,16 @@ export class TsTestUtils {
   }
 
   /**
+   * Compiles the source code and retrieves type for a variable.
+   */
+  public static getVariableType(variableName: string, sourceCode: string): Type {
+    const sourceFile = TsTestUtils.getSourceFile(sourceCode);
+    const type = sourceFile.getVariableDeclarationOrThrow(variableName).getType();
+
+    return type;
+  }
+
+  /**
    * Prints a TS expression
    */
   public static printExpression(compilerModule: TTypeScript, expression: ts.Expression): string {

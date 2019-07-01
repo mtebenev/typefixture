@@ -60,7 +60,7 @@ test('Should create an object with nested class instances', () => {
   expect(generated.b).toBeInstanceOf(TestClass);
 });
 
-test('Should create an object with non-default constructor', () => {
+test('Should create a class instance with non-default constructor', () => {
   const fixture = new Fixture();
   const generated = fixture.create<ClassWithConstructor>();
   expect(generated.a).toEqual(expect.any(Number));

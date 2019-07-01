@@ -6,6 +6,7 @@ import {TypeRecipeContext} from './type-recipe-context';
 import {ITypeRecipeContext} from './itype-recipe-context';
 import {TypeRecipeBuilderComposite} from './type-recipe-builder-composite';
 import {ITypeRecipeRequest} from './itype-recipe-request';
+import {TypeRecipeBuilderPrimitive} from './type-recipe-builder-primitive';
 
 export class TypeRecipeBuilder {
 
@@ -32,7 +33,8 @@ export class TypeRecipeBuilder {
     // Compose builders
     const builders = [
       new TypeRecipeBuilderClass(),
-      new TypeRecipeBuilderInterface()
+      new TypeRecipeBuilderInterface(),
+      new TypeRecipeBuilderPrimitive()
     ];
 
     // Create context
