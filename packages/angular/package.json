@@ -29,5 +29,11 @@
   },
   "bugs": {
     "url": "https://github.com/mtebenev/typefixture/issues"
+  },
+  "devDependencies": {
+    "ts-morph": "2.3.0"
+  },
+  "dependencies": {
+    "@typefixture/core": "^0.0.3"
   }
 }

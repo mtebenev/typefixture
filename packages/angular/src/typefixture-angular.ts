@@ -1,1 +1,1 @@
-// Exports here.
+export * from './transformer-factory-angular';

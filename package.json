@@ -4,9 +4,11 @@
   "scripts": {
     "build-core": "lerna run build --scope @typefixture/core",
     "build-jest": "lerna run build --scope @typefixture/jest",
+    "build-angular": "lerna run build --scope @typefixture/angular",
     "test-core": "lerna run test --scope @typefixture/core --stream",
     "tslint-core": "lerna run tslint --scope @typefixture/core --stream",
     "sample-jest": "lerna run test --scope sample-jest --stream",
+    "sample-angular": "lerna run test --scope sample-angular --stream",
     "publish": "lerna run tsc && lerna publish"
   },
   "devDependencies": {
