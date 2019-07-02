@@ -61,8 +61,6 @@ describe('Simple tests', () => {
     expect(generated.b).toEqual(jasmine.any(TestClass));
   });
 
-  // TODO: does not work with Karma (browser)
-  /*
   it('Should create a class instance with non-default constructor', () => {
     const fixture = new Fixture();
     const generated = fixture.create<ClassWithConstructor>();
@@ -71,5 +69,4 @@ describe('Simple tests', () => {
     expect(generated.c).toEqual(jasmine.any(Number));
     expect(generated.product).toEqual(generated.a * generated.b * generated.c);
   });
-  */
 });

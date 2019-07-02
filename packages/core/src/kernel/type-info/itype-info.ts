@@ -14,7 +14,7 @@ export interface ITypeInfo {
   /**
    * If defined, then the type is instantiable with new operator.
    */
-  ctor?: new() => any;
+  ctor?: new(...args: any[]) => any;
 
   /**
    * Provides ctor arguments info if defined.

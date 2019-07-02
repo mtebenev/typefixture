@@ -66,14 +66,12 @@ export class SpecimenBuilderTypeInfo implements ISpecimenBuilder {
       throw new Error('Unexpected');
     }
 
-    if(typeInfo.ctorInfo) { // Explicit constructor info available
-      const instance = Object.create(typeInfo.ctor.prototype);
-      const args = typeInfo.ctorInfo.arguments.map(a => context.resolve(a.request));
-      instance.constructor.apply(instance, args);
-      result = instance;
-    } else { // Implicit or default ctor, use 'new'
-      result = new typeInfo.ctor();
+    let args: any[] = [];
+    // Create arguments if possible
+    if(typeInfo.ctorInfo) {
+      args = typeInfo.ctorInfo.arguments.map(a => context.resolve(a.request));
     }
+    result = new typeInfo.ctor(...args);
 
     return result;
   }
